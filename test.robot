@@ -55,7 +55,7 @@ Change Disabled Text With Edit
     Page Should Contain    Row 1 was saved
     Close Browser
 
-UI State Validatie (na login)
+UI State Validatie
     [Documentation]    Verifies the login of a user.
     Open Browser    https://practicetestautomation.com/practice-test-login/    chrome
     Sleep    5s
