@@ -26,7 +26,8 @@ WebDriverWait(driver, 10).until(
 )
 
 assert "Logged In Successfully" in driver.page_source
-driver.save_screenshot("after_login.png")
-#print("TEST PASSED: Login successful") - Als je screenshot wilt nemen.
+#driver.save_screenshot("after_login.png") - Als je screenshot wilt nemen.
+print("TEST PASSED: Login successful") 
 
 driver.quit()
+
