@@ -4,30 +4,70 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-# --- Keyword (functie) ---
-def perform_valid_login(driver):
+#Testcase 1
+def testcase_1():
+    driver = webdriver.Chrome()
+    driver.get("https://practicetestautomation.com/practice-test-login/")
+
+    WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.ID, "username"))
+    )
+
     driver.find_element(By.ID, "username").send_keys("student")
     driver.find_element(By.ID, "password").send_keys("Password123")
     driver.find_element(By.ID, "submit").click()
 
+    assert "Logged In Successfully" in driver.page_source
+    print("TC1 PASSED")
 
-# --- Test ---
-driver = webdriver.Chrome()
-driver.get("https://practicetestautomation.com/practice-test-login/")
+    driver.quit()
 
-WebDriverWait(driver, 10).until(
-    EC.visibility_of_element_located((By.ID, "username"))
-)
+#testcase_1() - Only running this Testcase. Put in Terminal: python test_py.py
 
-perform_valid_login(driver)
+#Testcase 2
+def testcase_2():
+    driver = webdriver.Chrome()
+    driver.get("https://practicetestautomation.com/practice-test-login/")
 
-WebDriverWait(driver, 10).until(
-    EC.visibility_of_element_located((By.TAG_NAME, "h1"))
-)
+    WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.ID, "username"))
+    )
 
-assert "Logged In Successfully" in driver.page_source
-#driver.save_screenshot("after_login.png") - Als je screenshot wilt nemen.
-print("TEST PASSED: Login successful") 
+    driver.find_element(By.ID, "username").send_keys("wronguser")
+    driver.find_element(By.ID, "password").send_keys("Password123")
+    driver.find_element(By.ID, "submit").click()
 
-driver.quit()
+    WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.ID, "error"))
+    )
 
+    assert "Your username is invalid!" in driver.page_source
+    print("TC2 PASSED")
+
+    driver.quit()
+
+#testcase_2()
+
+#Testcase 3
+def testcase_3():
+    driver = webdriver.Chrome()
+    driver.get("https://practicetestautomation.com/practice-test-login/")
+
+    WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.ID, "username"))
+    )
+
+    driver.find_element(By.ID, "username").send_keys("student")
+    driver.find_element(By.ID, "password").send_keys("incorrectPassword")
+    driver.find_element(By.ID, "submit").click()
+
+    WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.ID, "error"))
+    )
+
+    assert "Your password is invalid!" in driver.page_source
+    print("TC3 PASSED")
+
+    driver.quit()
+
+#testcase_3()
