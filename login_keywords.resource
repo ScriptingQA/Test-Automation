@@ -38,3 +38,12 @@ Overview Checkout
     Page Should Contain    Checkout: Overview
     Page Should Contain    Sauce Labs Backpack
     Page Should Contain    Sauce Labs Bike Light
+
+*** Keywords ***
+Check Window Count Increased
+    [Arguments]    ${before}
+    ${handles}=    Get Window Handles
+    ${count}=      Get Length    ${handles}
+    ${expected}=   Evaluate    ${before} + 1
+    Should Be Equal As Integers    ${count}    ${expected}
+
