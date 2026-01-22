@@ -1,5 +1,6 @@
 *** Settings ***
 Library    SeleniumLibrary
+Library    OperatingSystem
 Resource   login_keywords.resource
 
 *** Test Cases ***
@@ -95,4 +96,92 @@ Add To Cart - SauceDemo
     Click Button    id=finish
     Page Should Contain    Thank you for your order!
 
-    
+*** Test Cases ***
+
+*** Test Cases ***
+Save Without Value Should Fail
+    [Documentation]    Verifies validation when trying to save empty input
+    Open Browser    https://practicetestautomation.com/practice-test-exceptions/    chrome
+    Maximize Browser Window
+    Wait Until Element Is Visible    id=row1    10s
+    Click Button    id=add_btn
+    Wait Until Element Is Visible    css=#row2 input    10s
+    Click Button    css=#row2 button[name="Save"]
+    Page Should Not Contain    Row 2 was saved
+    Close Browser
+#They built this wrong. The save button works when you have saved an empty field.
+
+*** Settings ***
+Library    SeleniumLibrary
+
+*** Test Cases ***
+Mobile Viewport Smoke Test
+    [Documentation]    Verifies that login page renders correctly on mobile viewport
+    Open Browser    https://practicetestautomation.com/practice-test-login/    chrome
+
+    Set Window Size    375    667
+
+    Wait Until Element Is Visible    id=username    10s
+    Wait Until Element Is Visible    id=password    10s
+    Wait Until Element Is Visible    id=submit      10s
+
+    Page Should Contain    Test Login
+
+    Close Browser
+
+*** Test Cases ***
+Mobile Login With Valid Credentials
+    [Documentation]    Verifies valid login on mobile viewport
+    Open Browser    https://practicetestautomation.com/practice-test-login/    chrome
+    Set Window Size    375    667
+
+    Wait Until Element Is Visible    id=username    10s
+    Perform Valid Login
+
+    Page Should Contain    Logged In Successfully
+    Location Should Contain    logged-in-successfully
+
+    Close Browser
+
+Mobile Browser Login With Invalid Username
+    [Documentation]    Verifies invalid username login on mobile viewport
+    Open Browser    https://practicetestautomation.com/practice-test-login/    chrome
+    Set Window Size    375    667
+
+    Wait Until Element Is Visible    id=username    10s
+    Perform Invalid Username
+
+    Page Should Contain    Your username is invalid!
+
+    Close Browser
+
+Mobile Browser Login With Invalid Password
+    [Documentation]    Verifies invalid password login on mobile viewport
+    Open Browser    https://practicetestautomation.com/practice-test-login/    chrome
+    Set Window Size    375    667
+
+    Wait Until Element Is Visible    id=username    10s
+    Perform Invalid Password
+
+    Page Should Contain    Your password is invalid!
+
+    Close Browser
+
+Dropdown List
+    Open Browser    https://the-internet.herokuapp.com/dropdown    chrome
+    Maximize Browser Window
+    Wait Until Element Is Visible    id=dropdown
+    Select From List By Label    id=dropdown    Option 2
+    Close Browser
+
+*** Test Cases ***
+New Window Opening
+    Open Browser    https://the-internet.herokuapp.com/windows    chrome
+    Maximize Browser Window
+    ${handles_before}=    Get Window Handles
+    ${count_before}=      Get Length    ${handles_before}
+    Click Link    Click Here
+    Wait Until Keyword Succeeds    5s    500ms    Check Window Count Increased    ${count_before}
+    Switch Window    NEW
+    Wait Until Page Contains    New Window
+    Close Browser
